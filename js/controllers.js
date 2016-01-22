@@ -4,19 +4,30 @@
 (function () {
     'use strict';
 
-    angular.module('app', [])
-        .controller('app.controllers', HelloController);
+    angular.module('app.controllers', [])
+        .controller('Hello1Controller', Hello1Controller)
+        .controller('Hello2Controller', Hello2Controller);
 
-    HelloController.$inject = ['$scope'];
 
-    function HelloController($scope) {
+    function Hello1Controller() {
         var vm = this;
-        vm.greeting = {text: 'Hello ...'};
+        vm.greeting = {text: 'Hello 1 ...'};
         // use $location for something good here...
 
-        console.log('HelloController', $scope);
+        console.log('Hello1Controller', vm);
 
     }
+
+    function Hello2Controller() {
+        var vm = this;
+        vm.greeting = {text: 'Hello 2 ...'};
+        // use $location for something good here...
+
+        console.log('Hello2Controller', vm);
+
+    }
+
+
 
 })();
 
