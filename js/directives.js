@@ -1,21 +1,47 @@
 /**
  * Created by idrenski on 1/19/2016.
  */
-(function() {
+(function () {
     'use strict';
 
     angular.module('app.directives', [])
         .directive('myHello', myHello);
 
+
     function myHello() {
-        function TempController() {
+
+        TempController.$inject = ["$scope"];
+
+        function TempController($scope) {
             var vm = this;
             vm.greeting = {text: 'Template ...'};
-            // use $location for something good here...
+
+            $scope.$watch(
+                "template.greeting",
+                function (newValue, oldValue) {
+                    var newone = newValue.text.replace(new RegExp('[0-9]', 'g'), '*');
+                    vm.greeting =  {text: newone};
+
+                    console.log('newValue, oldValue', newValue, oldValue);
+                },
+                true
+            );
 
             console.log('TempController', vm);
-
         }
+
+        /* The longer short answer: Ask yourself “when do I want my code to run?”
+         * Before compilation – Controller
+         * After compilation – Link
+         */
+        function link(scope, el, attr, controller) {
+
+            controller.greeting = {text: 'Third ...'};
+
+            console.log('link to', scope);
+        }
+
+
         return {
             restrict: 'EA',
             scope: {
@@ -24,8 +50,11 @@
             templateUrl: 'view/template.html',
             controllerAs: "template",
             bindToController: true,
-            controller: TempController
+            controller: TempController,
+            link: link
         };
+
+
     }
 
 })();
