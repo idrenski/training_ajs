@@ -7,31 +7,31 @@
             'app.controllers',
             'app.directives',
             'app.services',
-            'ngRoute'
+            'ui.router'
         ])
 
-        .config(function ($routeProvider, $locationProvider) {
+        /* How UI-Router works
+         * For more info https://scotch.io/tutorials/angular-routing-using-ui-router
+         */
+        .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
-            $routeProvider
-                .when('/hello1', {
+            $locationProvider.html5Mode(true);
+            $urlRouterProvider.otherwise('/');
+
+            $stateProvider
+                .state('hello1', {
+                    url: '/hello1',
                     templateUrl: 'view/hello1.html',
                     controller: 'Hello1Controller',
                     controllerAs: 'hello1'
                 })
-                .when('/hello2', {
+
+                .state('hello2', {
+                    url: '/hello2',
                     templateUrl: 'view/hello2.html',
                     controller: 'Hello2Controller',
                     controllerAs: 'hello2'
-                })
-                .when('/template', {
-                    templateUrl: 'view/template.html',
-                    controller: 'TempController',
-                    controllerAs: 'template'
-                })
-                .otherwise({
-                    redirectTo: '/'
                 });
-
-            $locationProvider.html5Mode(true);
         });
+
 })();
