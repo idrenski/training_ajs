@@ -4,8 +4,9 @@
 (function () {
     'use strict';
 
-    angular.module('app.directives', [])
-        .directive('myHello', myHello);
+    angular.module('app.directives', ['app.services'])
+        .directive('myHello', myHello)
+        .directive('myCurrent', myCurrent);
 
 
     function myHello() {
@@ -20,7 +21,7 @@
                 "template.greeting",
                 function (newValue, oldValue) {
                     var newone = newValue.text.replace(new RegExp('[0-9]', 'g'), '*');
-                    vm.greeting =  {text: newone};
+                    vm.greeting = {text: newone};
 
                     console.log('newValue, oldValue', newValue, oldValue);
                 },
@@ -54,6 +55,46 @@
             link: link
         };
 
+
+    }
+
+    function myCurrent() {
+
+        ServiceController.$inject = ["$scope", "globalDataService"];
+
+        function ServiceController($scope, globalDataService) {
+            var vm = this;
+            vm.globalDataService = globalDataService;
+            vm.theMonitoringValue = vm.globalDataService.getData();
+
+            $scope.$watch(
+                function () {
+                    return vm.globalDataService.getData();
+                },
+                function (newValue, oldValue) {
+                    vm.theMonitoringValue = vm.globalDataService.getData();
+
+                    vm.greeting = {text: 'current service #' + ' ...' + vm.theMonitoringValue};
+
+                    console.log('newValue, oldValue', newValue, oldValue);
+                },
+                true
+            );
+
+            console.log('ServiceController', vm);
+        }
+
+
+        return {
+            restrict: 'EA',
+            scope: {
+                greeting: '='
+            },
+            templateUrl: 'view/current.html',
+            controllerAs: "current",
+            bindToController: true,
+            controller: ServiceController
+        };
 
     }
 

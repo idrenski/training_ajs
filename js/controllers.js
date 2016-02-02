@@ -25,9 +25,9 @@
         /*
         * For data manipulation purposes only it can be called just as serviceName.method
         * */
-        globalDataService.setData(1);
+        vm.globalDataService.setData(1);
 
-        vm.greeting = {text: 'Hello ' + ' ...' + globalDataService.getData()};
+        vm.greeting = {text: 'Hello ' + ' ...' + vm.globalDataService.getData()};
         // use $location for something good here...
 
         console.log('Hello1Controller', vm);
@@ -37,15 +37,14 @@
     function Hello2Controller(globalDataService) {
         var vm = this;
         vm.globalDataService = globalDataService;
-        globalDataService.setData(2);
+        vm.globalDataService.setData(2);
 
-        vm.greeting = {text: 'Hello ' + ' ...' + globalDataService.getData()};
+        vm.greeting = {text: 'Hello ' + ' ...' + vm.globalDataService.getData()};
         // use $location for something good here...
 
         console.log('Hello2Controller', vm);
 
     }
-
 
 })();
 
