@@ -11,16 +11,18 @@
 
     function myHello() {
 
-        TempController.$inject = ["$scope"];
+        TempController.$inject = ["$scope","modifyDataFactory"];
 
-        function TempController($scope) {
+        function TempController($scope, modifyDataFactory) {
             var vm = this;
+
+            vm.modifyDataFactory = modifyDataFactory;
             vm.greeting = {text: 'Template ...'};
 
             $scope.$watch(
                 "template.greeting",
                 function (newValue, oldValue) {
-                    var newone = newValue.text.replace(new RegExp('[0-9]', 'g'), '*');
+                    var newone = vm.modifyDataFactory.maskDigit(vm.modifyDataFactory.lowCapCapLow(newValue.text));
                     vm.greeting = {text: newone};
 
                     console.log('newValue, oldValue', newValue, oldValue);
