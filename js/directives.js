@@ -11,7 +11,7 @@
 
     function myHello() {
 
-        TempController.$inject = ["$scope","modifyDataFactory"];
+        TempController.$inject = ["$scope", "modifyDataFactory"];
 
         function TempController($scope, modifyDataFactory) {
             var vm = this;
@@ -22,8 +22,7 @@
             $scope.$watch(
                 "template.greeting",
                 function (newValue, oldValue) {
-                    var newone = vm.modifyDataFactory.maskDigit(vm.modifyDataFactory.lowCapCapLow(newValue.text));
-                    vm.greeting = {text: newone};
+                    vm.greeting = {text: vm.modifyDataFactory.maskDigit(newValue.text)};
 
                     console.log('newValue, oldValue', newValue, oldValue);
                 },
