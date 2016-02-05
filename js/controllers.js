@@ -15,16 +15,16 @@
         var vm = this;
 
         /*
-        * vm.globalDataService = globalDataService;
-        *
-        * It makes the service accessible in the scope of the controller
-        * See how can be called in hello1.html
-        * */
+         * vm.globalDataService = globalDataService;
+         *
+         * It makes the service accessible in the scope of the controller
+         * See how can be called in hello1.html
+         * */
         vm.globalDataService = globalDataService;
 
         /*
-        * For data manipulation purposes only it can be called just as serviceName.method
-        * */
+         * For data manipulation purposes only it can be called just as serviceName.method
+         * */
         vm.globalDataService.setData(1);
 
         vm.greeting = {text: 'Hello ' + ' ...' + vm.globalDataService.getData()};

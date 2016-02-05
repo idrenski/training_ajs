@@ -11,13 +11,14 @@
 
     function myHello() {
 
-        TempController.$inject = ["$scope", "modifyDataFactory"];
+        TempController.$inject = ["$scope", "modifyDataFactory", "globalDataProvider"];
 
-        function TempController($scope, modifyDataFactory) {
+        function TempController($scope, modifyDataFactory, globalDataProvider) {
             var vm = this;
 
+            console.log('globalDataProvider.data: ', globalDataProvider.data);
             vm.modifyDataFactory = modifyDataFactory;
-            vm.greeting = {text: 'Template ...'};
+            vm.greeting = {text: 'Template ...' + globalDataProvider.data};
 
             $scope.$watch(
                 "template.greeting",
@@ -36,13 +37,12 @@
          * Before compilation – Controller
          * After compilation – Link
          */
-        function link(scope, el, attr, controller) {
+        function link(scope, element, attr, controller) {
 
             controller.greeting = {text: 'Third ...'};
 
             console.log('link to', scope);
         }
-
 
         return {
             restrict: 'EA',
@@ -55,7 +55,6 @@
             controller: TempController,
             link: link
         };
-
 
     }
 

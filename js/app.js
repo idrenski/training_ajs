@@ -32,6 +32,12 @@
                     controller: 'Hello2Controller',
                     controllerAs: 'hello2'
                 });
-        });
+        })
+
+        .config(function (globalDataProviderProvider) {
+
+            console.log(globalDataProviderProvider);
+            globalDataProviderProvider.setData(1);
+        })
 
 })();

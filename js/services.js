@@ -7,7 +7,8 @@
     angular.module('app.services', [])
 
         .service('globalDataService', globalDataService)
-        .factory('modifyDataFactory', modifyDataFactory);
+        .factory('modifyDataFactory', modifyDataFactory)
+        .provider("globalDataProvider", globalDataProvider);
 
     function globalDataService() {
         var vm = this;
@@ -20,7 +21,6 @@
         vm.setData = function (newNo) {
             vm.no = newNo;
         };
-
     }
 
     function modifyDataFactory() {
@@ -31,6 +31,25 @@
         };
 
         return sResult;
+    }
+
+
+    function globalDataProvider() {
+        var no = -1;
+
+        return {
+            setData: setData,
+            $get: getData
+        };
+
+        function getData() {
+            return {data: no};
+        }
+
+        function setData(newNo) {
+            no = newNo;
+        }
+
     }
 
 })();
