@@ -8,7 +8,8 @@
 
         .service('globalDataService', globalDataService)
         .factory('modifyDataFactory', modifyDataFactory)
-        .provider("globalDataProvider", globalDataProvider);
+        .provider("globalDataProvider", globalDataProvider)
+        .filter("translateDataFilter", translateDataFilter);
 
     function globalDataService() {
         var vm = this;
@@ -33,7 +34,6 @@
         return sResult;
     }
 
-
     function globalDataProvider() {
         var no = -1;
 
@@ -49,7 +49,15 @@
         function setData(newNo) {
             no = newNo;
         }
+    }
 
+    function translateDataFilter() {
+        return function (input) {
+            var out = input || '';
+            out = out.replace(/world|universe|cosmos|land/gi, "Country");
+
+            return out;
+        }
     }
 
 })();

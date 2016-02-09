@@ -11,9 +11,9 @@
 
     function myHello() {
 
-        TempController.$inject = ["$scope", "modifyDataFactory", "globalDataProvider"];
+        TempController.$inject = ["$scope", "modifyDataFactory", "globalDataProvider", "translateDataFilterFilter"];
 
-        function TempController($scope, modifyDataFactory, globalDataProvider) {
+        function TempController($scope, modifyDataFactory, globalDataProvider, translateDataFilter) {
             var vm = this;
 
             console.log('globalDataProvider.data: ', globalDataProvider.data);
@@ -23,7 +23,7 @@
             $scope.$watch(
                 "template.greeting",
                 function (newValue, oldValue) {
-                    vm.greeting = {text: vm.modifyDataFactory.maskDigit(newValue.text)};
+                    vm.greeting = {text: vm.modifyDataFactory.maskDigit(translateDataFilter(newValue.text))};
 
                     console.log('newValue, oldValue', newValue, oldValue);
                 },
@@ -36,6 +36,9 @@
         /* The longer short answer: Ask yourself “when do I want my code to run?”
          * Before compilation – Controller
          * After compilation – Link
+         *
+         * As result the link overwrite the initial value set in Controller
+         * Disable the link to see the initial value set in Controller
          */
         function link(scope, element, attr, controller) {
 
