@@ -47,6 +47,12 @@
         <my-hello></my-hello>
     </div>
 
+    <div>
+        Enter language code: <input ng-model="lang.text">
+
+        <p>{{'_TEXT_CONSTANT_' | translateLangFilter:lang.text }}</p>
+    </div>
+
 </div>
 
 </body>
