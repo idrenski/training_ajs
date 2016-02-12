@@ -50,7 +50,7 @@
         return {
             restrict: 'EA',
             scope: {
-                greeting: '='
+                greeting: '=?'
             },
             templateUrl: 'view/template.html',
             controllerAs: "template",
@@ -91,7 +91,7 @@
         return {
             restrict: 'EA',
             scope: {
-                greeting: '='
+                greeting: '=?'
             },
             templateUrl: 'view/current.html',
             controllerAs: "current",
