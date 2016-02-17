@@ -30,6 +30,26 @@
                 true
             );
 
+            /* http://www.bennadel.com/blog/2807-using-rootscope-emit-as-a-performance-optimization-in-angularjs.htm
+             *
+             * Memorable explanation of Theory for $emit and $broadcast
+             *
+             * $rootScope.$emit only lets other $rootScope listeners catch it. This is good when you don't want every $scope to get it. Mostly a high level communication. Think of it as adults talking to each other in a room so the kids can't hear them.
+             * $rootScope.$broadcast is a method that lets pretty much everything hear it. This would be the equivalent of parents yelling that dinner is ready so everyone in the house hears it.
+             * $scope.$emit is when you want that $scope and all its parents and $rootScope to hear the event. This is a child whining to their parents at home (but not at a grocery store where other kids can hear).
+             * $scope.$broadcast is for the $scope itself and its children. This is a child whispering to its stuffed animals so their parents can't hear.
+             */
+
+            /* Register a listener for an event named CurrentService
+             * This directive here receive a new value via parameter serviceNo
+             */
+            $scope.$on('CurrentService',
+                function (event, serviceNo) {
+                    vm.greeting = {text: 'got $rootScope.$broadcast on subscriber TempController from publisher CurrentService ... and service #' + serviceNo};
+
+                    console.log('got $rootScope.$broadcast on subscriber TempController from publisher CurrentService', serviceNo);
+                });
+
             console.log('TempController', vm);
         }
 
@@ -63,9 +83,9 @@
 
     function myCurrent() {
 
-        ServiceController.$inject = ["$scope", "globalDataService"];
+        ServiceController.$inject = ["$scope", "$rootScope", "globalDataService"];
 
-        function ServiceController($scope, globalDataService) {
+        function ServiceController($scope, $rootScope, globalDataService) {
             var vm = this;
             vm.globalDataService = globalDataService;
             vm.theMonitoringValue = vm.globalDataService.getData();
@@ -76,6 +96,11 @@
                 },
                 function (newValue, oldValue) {
                     vm.theMonitoringValue = vm.globalDataService.getData();
+
+                    /* Broadcast a message (that event named CurrentService happened) through $rootScope.$broadcast
+                     * One directive notifies other directive that the value of vm.theMonitoringValue is changed
+                     */
+                    $rootScope.$broadcast('CurrentService', vm.theMonitoringValue);
 
                     vm.greeting = {text: 'current service #' + ' ...' + vm.theMonitoringValue};
 
