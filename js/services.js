@@ -8,9 +8,12 @@
 
         .service('globalDataService', globalDataService)
         .factory('modifyDataFactory', modifyDataFactory)
+        .factory('apiFactory', apiFactory)
         .provider("globalDataProvider", globalDataProvider)
         .filter("translateDataFilter", translateDataFilter)
         .filter("translateLangFilter", translateLangFilter);
+
+    apiFactory.$inject = ['$http'];
 
     function globalDataService() {
         var vm = this;
@@ -23,6 +26,23 @@
         vm.setData = function (newNo) {
             vm.no = newNo;
         };
+    }
+
+    function apiFactory($http) {
+        var sResult = {};
+
+        sResult.getWeather = function (city, country) {
+            /* The site api.openweathermap.org provides free API
+             *
+             * This API can be called 1 time per 10 minutes from one device/one API key (APPID). Normally the weather is not changing so frequently.
+             * The APPID for account i.drenski@gmail.com is APPID = d11713326126ee20e35950eff36698d7
+             *
+             * Example for parameters: city = 'Sofia', country = 'bg'
+             */
+            return $http.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country + '&APPID=d11713326126ee20e35950eff36698d7');
+        };
+
+        return sResult;
     }
 
     function modifyDataFactory() {

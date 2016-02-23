@@ -6,10 +6,12 @@
 
     angular.module('app.controllers', [])
         .controller('Hello1Controller', Hello1Controller)
-        .controller('Hello2Controller', Hello2Controller);
+        .controller('Hello2Controller', Hello2Controller)
+        .controller('WeatherController', WeatherController);
 
     Hello1Controller.$inject = ['globalDataService'];
     Hello2Controller.$inject = ['globalDataService'];
+    WeatherController.$inject = ['$scope', 'apiFactory'];
 
     function Hello1Controller(globalDataService) {
         var vm = this;
@@ -45,6 +47,27 @@
         console.log('Hello2Controller', vm);
 
     }
+
+    function WeatherController($scope, apiFactory) {
+        var vm = this;
+        // define a promise called weather
+        var weather = apiFactory.getWeather('Sofia', 'bg');
+
+        weather.then(
+            function (payload) {
+                // payload properties: data, status, headers, config
+                vm.weatherData = payload.data;
+
+                // added to the $scope for debug purposes only
+                $scope.weatherData = payload.data;
+            },
+            function (errorPayload) {
+                console.log('failure loading weather', errorPayload);
+            });
+
+        console.log('WeatherController', vm.weatherData, $scope);
+    }
+
 
 })();
 

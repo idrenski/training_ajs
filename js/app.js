@@ -31,6 +31,12 @@
                     templateUrl: 'view/hello2.html',
                     controller: 'Hello2Controller',
                     controllerAs: 'hello2'
+                })
+                .state('weather', {
+                    url: '/weather',
+                    templateUrl: 'view/weather.html',
+                    controller: 'WeatherController',
+                    controllerAs: 'weather'
                 });
         })
 
