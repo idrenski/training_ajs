@@ -7,7 +7,8 @@
             'app.controllers',
             'app.directives',
             'app.services',
-            'ui.router'
+            'ui.router',
+            'ngResource'
         ])
 
         /* How UI-Router works
@@ -32,10 +33,18 @@
                     controller: 'Hello2Controller',
                     controllerAs: 'hello2'
                 })
+
                 .state('weather', {
                     url: '/weather',
                     templateUrl: 'view/weather.html',
                     controller: 'WeatherController',
+                    controllerAs: 'weather'
+                })
+                
+                .state('weatherRes', {
+                    url: '/weatherRes',
+                    templateUrl: 'view/weather.html',
+                    controller: 'WeatherResourceController',
                     controllerAs: 'weather'
                 });
         })

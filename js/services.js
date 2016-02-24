@@ -13,7 +13,7 @@
         .filter("translateDataFilter", translateDataFilter)
         .filter("translateLangFilter", translateLangFilter);
 
-    apiFactory.$inject = ['$http'];
+    apiFactory.$inject = ['$http', '$resource'];
 
     function globalDataService() {
         var vm = this;
@@ -28,18 +28,25 @@
         };
     }
 
-    function apiFactory($http) {
+    function apiFactory($http, $resource) {
         var sResult = {};
 
+        /* The site api.openweathermap.org provides free API
+         *
+         * This API can be called 1 time per 10 minutes from one device/one API key (APPID). Normally the weather is not changing so frequently.
+         * The APPID for account i.drenski@gmail.com is APPID = d11713326126ee20e35950eff36698d7
+         *
+         * Example for parameters: city = 'Sofia', country = 'bg'
+         */
+
         sResult.getWeather = function (city, country) {
-            /* The site api.openweathermap.org provides free API
-             *
-             * This API can be called 1 time per 10 minutes from one device/one API key (APPID). Normally the weather is not changing so frequently.
-             * The APPID for account i.drenski@gmail.com is APPID = d11713326126ee20e35950eff36698d7
-             *
-             * Example for parameters: city = 'Sofia', country = 'bg'
-             */
+
             return $http.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country + '&APPID=d11713326126ee20e35950eff36698d7');
+        };
+
+        sResult.getWeatherResource = function (city, country) {
+
+            return $resource('http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + country + '&APPID=d11713326126ee20e35950eff36698d7');
         };
 
         return sResult;
